@@ -1,1 +1,29 @@
+class Solution {
+public:
+    int maxUniqueSplit(string s) {
+        unordered_set<string> seen;
+        backtrace(s,0,seen);
+        return ans;
+    }
+private:
+    int ans=0;
+    int backtrack(string &s, int start, unordered_set<string>& seen) {
+        if (start == s.length()) {
+            return 0;
+        }
+        int maxSplits = 0;
+        string currentSubstring = "";
+        for (int i = start; i < s.length(); i++) {
+            currentSubstring += s[i];
+                if (seen.find(currentSubstring) == seen.end()) {
+                seen.insert(currentSubstring);
 
+                int remainingSplits = backtrack(s, i + 1, seen);
+                maxSplits = max(maxSplits, 1 + remainingSplits);
+                seen.erase(currentSubstring);
+            }
+        }
+        
+        return maxSplits;
+    }
+};
